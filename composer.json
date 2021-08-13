@@ -9,8 +9,10 @@
             "email": "790928939@qq.com"
         }
     ],
-    "minimum-stability": "dev",
-    "require": {},
+    "minimum-stability": "stable",
+    "require": {
+        "php" : ">=5.4.*"
+    },
     "autoload": {
         "psr-4":{
             "ljh13043434556\\qianduanhuancun\\":"src"
