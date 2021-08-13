@@ -1,0 +1,19 @@
+{
+    "name": "ljh13043434556/qianduanhuancun",
+    "description": "huancun",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "ljh",
+            "email": "790928939@qq.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4":{
+            "ljh13043434556\\qianduanhuancun\\":"src"
+        }
+    }
+}
