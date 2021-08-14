@@ -14,13 +14,20 @@ class UserVersion extends Version
     {
         parent::__construct($apiCache);
         $this->userUniqid = $userUniqid;
-        $this->cacheKey = $this->apiCache->getCacheKey('user');
+        $this->cacheKey = $this->apiCache->getCacheKey('user') . ':' . $userUniqid;
+        $this->load();
     }
 
 
     protected function saveToJsonFile()
     {
-        $file = $this->apiCache->getJsonFile('user') . substr($this->userUniqid, -3) . DIRECTORY_SEPARATOR . $this->userUniqid . '.json';
-        file_put_contents($file, $this->versionList);
+        $dir = $this->apiCache->getJsonFile('user') . substr($this->userUniqid, -3) . DIRECTORY_SEPARATOR;
+        $file = $dir . $this->userUniqid . '.json';
+
+        if(!is_dir($dir)) {
+            mkdir($dir, '0777', true);
+        }
+        file_put_contents($file, json_encode($this->versionList));
+        return $this;
     }
 }

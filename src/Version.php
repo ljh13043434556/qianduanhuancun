@@ -1,7 +1,7 @@
 <?php
 namespace ljh13043434556\qianduanhuancun;
 
-
+use think\facade\Cache;
 /**
  * 版本号控制
  * Class Version
@@ -17,9 +17,7 @@ class Version
     {
         $this->cache = Cache::store('redis');
         $this->apiCache = $apiCache;
-        $this->load();
 
-        var_dump($this->versionList);
 
     }
 
@@ -30,6 +28,7 @@ class Version
     public function add($key)
     {
         $this->versionList[$key] = isset($this->versionList[$key]) ? $this->versionList[$key] + 1 :  2;
+        return $this;
     }
 
 
@@ -49,6 +48,7 @@ class Version
     {
         $this->saveToRedis();
         $this->saveToJsonFile();
+        return $this;
     }
 
 
@@ -57,7 +57,8 @@ class Version
      */
     protected function saveToRedis()
     {
-        $this->cache->set($this->cacheKey, $this->versionList);
+        $result = $this->cache->set($this->cacheKey, json_encode($this->versionList));
+        return $this;
     }
 
 
@@ -66,16 +67,16 @@ class Version
      */
     protected function saveToJsonFile()
     {
-
     }
 
 
     /**
      * 从Redis中加载缓存数据
      */
-    public function load()
+    protected function load()
     {
-        $this->versionList = $this->cache->get($this->cacheKey);
-        return $this->versionList;
+        $versionList = $this->cache->get($this->cacheKey);
+        $versionList = json_decode($versionList, true);
+        $this->versionList = !is_array($versionList) ? [] : $versionList;
     }
 }

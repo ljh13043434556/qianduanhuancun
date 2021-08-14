@@ -32,10 +32,10 @@ class ApiCache
 
 
 
-    protected function getClass($name)
+    protected function getClass($name, $params = [])
     {
         if(!isset($this->classMap['common'])) {
-            $this->classMap['common'] = new $name($this);
+            $this->classMap['common'] = new $name($this, $params);
         }
         return $this->classMap['common'];
     }
@@ -54,8 +54,8 @@ class ApiCache
      * 用户缓存
      * @return UserVersion|mixed
      */
-    public function user()
+    public function user($userUniqid)
     {
-        return $this->getClass(UserVersion::class);
+        return $this->getClass(UserVersion::class, $userUniqid);
     }
 }
